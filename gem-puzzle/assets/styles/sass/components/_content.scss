@@ -1,0 +1,11 @@
+.content {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	text-align: center;
+	border: 5px solid black;
+	margin: 0 auto;
+	padding-bottom: 100%;
+	user-select: none;
+}
