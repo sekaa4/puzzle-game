@@ -1,3 +1,5 @@
+import './assets/styles/sass/style.scss';
+
 let div = document.createElement('div');
 let wrapper = document.createElement('div');
 let divCont = document.createElement('div');
