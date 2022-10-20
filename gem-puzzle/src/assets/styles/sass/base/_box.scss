@@ -10,12 +10,12 @@
 	align-items: center;
 	outline: none;
 	background-color: $color-yellow;
-	border: none;
-	box-shadow: inset 1px 1px rgb(104, 104, 104);
+	border-radius: 6px;
+	box-shadow: inset 4px 3px 17px 4px rgb(104 104 104);
 	@extend %transition;
 	cursor: pointer;
 }
 
 .blank {
-	display: none;
+	opacity: 0;
 }

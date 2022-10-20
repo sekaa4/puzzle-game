@@ -1,8 +1,16 @@
 import './assets/styles/sass/style.scss';
+import { CreateElem } from './assets/js/CreateElem';
+import { getMatrix } from './assets/js/getMatrix';
+import { setPosBox } from './assets/js/setPositionBox';
+import { shuffleArray } from './assets/js/shuffleArray';
+import { findPos } from './assets/js/changePos';
+import { validForSwap } from './assets/js/changePos';
+import { readyForSwap } from './assets/js/changePos';
 
-let div = document.createElement('div');
-let wrapper = document.createElement('div');
-let divCont = document.createElement('div');
+let blockDiv = new CreateElem('div');
+let div = blockDiv.getElem('div');
+let wrapper = blockDiv.getElem('div');
+let divCont = blockDiv.getElem('div');
 let size = 16;
 
 div.classList.add('puzzle');
@@ -40,19 +48,53 @@ wrapper.append(time);
 wrapper.append(divCont);
 wrapper.append(frame);
 
-wrapper.append(document.createElement('div'));
-
 for (let i = 1; i <= size; i++) {
 	if (i === size) {
-		let elem = document.createElement('div');
+		let elem = blockDiv.getElem('div');
 		elem.classList.add('box', 'blank');
 		elem.setAttribute('data-id', `${i}`);
 		divCont.append(elem);
 	} else {
-		let elem = document.createElement('div');
+		let elem = blockDiv.getElem('div');
 		elem.classList.add('box');
 		elem.innerHTML = i;
 		elem.setAttribute('data-id', `${i}`);
 		divCont.append(elem);
 	}
 }
+
+//Position
+let boxNodes = Array.from(document.querySelectorAll('.box'));
+let matrix = getMatrix(boxNodes.map(el => +el.dataset.id), size);
+setPosBox(boxNodes, matrix);
+
+//Shuffle
+document.getElementById('shuffle').addEventListener('click', () => {
+	const shuffledArray = shuffleArray(matrix.flat());
+	matrix = getMatrix(shuffledArray, size);
+	setPosBox(boxNodes, matrix);
+});
+
+//Change position
+const blankNum = size;
+divCont.addEventListener('click', (e) => {
+	const clickBox = e.target.closest('.box');
+	if (!clickBox) {
+		return;
+	}
+
+	const boxNum = +clickBox.dataset.id;
+	const boxPos = findPos(boxNum, matrix);
+	const blankPos = findPos(blankNum, matrix);
+	const valid = validForSwap(boxPos, blankPos);
+	let won;
+
+	if (valid) {
+		won = readyForSwap(boxPos, blankPos, matrix, size);
+		setPosBox(boxNodes, matrix);
+	}
+
+	if (won) {
+		console.log('Happy!');
+	}
+});
