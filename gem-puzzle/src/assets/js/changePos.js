@@ -4,7 +4,7 @@ export function findPos(num, matrix) {
 			if (matrix[i][j] === num) {
 				let x = i;
 				let y = j;
-				return { x, y }
+				return { x, y };
 			}
 		}
 	}

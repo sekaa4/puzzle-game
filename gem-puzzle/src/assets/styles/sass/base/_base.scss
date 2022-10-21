@@ -5,7 +5,7 @@ html {
 body {
 	@extend %font-main;
 	@include font(1.6rem, 1.4, 500);
-	background-color: $color-white;
+	background-color: $color-antiquewhite;
 }
 
 h1 {
