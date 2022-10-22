@@ -33,13 +33,14 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 	//Position
 	let boxNodes = Array.from(document.querySelectorAll('.box'));
 	let matrix = getMatrix(boxNodes.map(el => +el.dataset.id), size);
-	const shuffledArray = shuffleArray(matrix.flat());
+	const shuffledArray = shuffleArray(matrix.flat(), size);
 	matrix = getMatrix(shuffledArray, size);
 	setPosBox(boxNodes, matrix);
 
 	//Shuffle
 	document.getElementById('shuffle').addEventListener('click', () => {
-		const shuffledArray = shuffleArray(matrix.flat());
+		divCont.classList.remove('won');
+		const shuffledArray = shuffleArray(matrix.flat(), size);
 		matrix = getMatrix(shuffledArray, size);
 		setPosBox(boxNodes, matrix);
 		num = 0;
@@ -71,7 +72,16 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 		}
 
 		if (won) {
-			console.log('Happy!');
+			let wrapper = document.querySelector('.wrapper');
+			divCont.classList.add('won');
+			let moves = document.getElementById('moves').innerHTML;
+			let time = document.getElementById('time').innerHTML;
+			let div = blockDiv.getElem('div', 'win');
+			div.innerHTML = `Hooray! You solved the puzzle in ${time} and ${moves} moves!`;
+			wrapper.append(div);
+			setTimeout(() => {
+				div.remove();
+			}, 5000);
 		}
 	};
 }

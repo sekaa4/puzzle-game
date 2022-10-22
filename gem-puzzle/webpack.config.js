@@ -66,6 +66,7 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
 				{ from: "favicon.ico", to: "" },
+				{ from: "./assets/sound/click.ogg", to: "" },
 			],
 		}),
 		new MiniCssExtractPlugin({

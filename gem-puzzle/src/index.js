@@ -30,7 +30,7 @@ wrapper.append(divCont);
 wrapper.append(frameDiv);
 
 //Create buttons
-const buttonsText = ['Shuffle and start', 'Stop', 'Continue', 'Save', 'Results'];
+const buttonsText = ['Shuffle and start', 'Stop', 'Sound', 'Save', 'Results'];
 const buttons = [];
 for (let i = 0; i < buttonsText.length; i++) {
 	let button = blockButton.getElem('button', 'button', buttonsText[i]);
@@ -38,6 +38,19 @@ for (let i = 0; i < buttonsText.length; i++) {
 	divButton.append(button);
 }
 buttons[0].setAttribute('id', `shuffle`);
+buttons[2].setAttribute('id', `sound`);
+
+const audio = new Audio('click.ogg');
+
+buttons[2].addEventListener('click', () => {
+	buttons[2].classList.toggle('sound-off');
+	if (buttons[2].classList.contains('sound-off')) {
+		removeSound();
+	} else {
+		audio.play();
+		onSound();
+	}
+});
 
 //Create start frame 4x4
 createFrame(blockDiv, divCont);
@@ -56,5 +69,40 @@ for (let i = 0; i < frameSizesText.length; i++) {
 		let size = +frame.dataset.id;
 		divCont.innerHTML = '';
 		createFrame(blockDiv, divCont, size);
+		if (buttons[2].classList.contains('sound-off')) {
+			removeSound();
+		} else {
+			audio.play();
+			onSound();
+		}
+		divCont.classList.remove('won');
 	});
 }
+
+let playSound = () => {
+	audio.play();
+}
+
+function removeSound() {
+	const buttons = document.querySelectorAll('.button');
+	buttons.forEach(el => {
+		el.removeEventListener('click', playSound);
+	});
+	const boxes = document.querySelectorAll('.box');
+	boxes.forEach(el => {
+		el.removeEventListener('click', playSound);
+	});
+}
+
+function onSound() {
+	const buttons = document.querySelectorAll('.button');
+	buttons.forEach(el => {
+		el.addEventListener('click', playSound);
+	});
+	const boxes = document.querySelectorAll('.box');
+	boxes.forEach(el => {
+		el.addEventListener('click', playSound);
+	});
+}
+
+onSound();
