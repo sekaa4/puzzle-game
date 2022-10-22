@@ -14,13 +14,14 @@ export function validForSwap(pos1, pos2) {
 	const diffX = Math.abs(pos1.x - pos2.x);
 	const diffY = Math.abs(pos1.y - pos2.y);
 
-	const valid = (diffX === 1 || diffY === 1) && (pos1.x === pos2.x || pos1.y === pos2.y);
+	const valid = diffX + diffY > 1 ? false : true;
 
 	return valid;
 }
 
 export function readyForSwap(pos1, pos2, matrix, size) {
 	[matrix[pos1.x][pos1.y], matrix[pos2.x][pos2.y]] = [matrix[pos2.x][pos2.y], matrix[pos1.x][pos1.y]];
+
 	if (won(matrix, size)) {
 		return true;
 	}
