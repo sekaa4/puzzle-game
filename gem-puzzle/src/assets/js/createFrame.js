@@ -39,12 +39,14 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 
 	//Shuffle
 	document.getElementById('shuffle').addEventListener('click', () => {
+		const div = document.querySelector('.win');
 		divCont.classList.remove('won');
 		const shuffledArray = shuffleArray(matrix.flat(), size);
 		matrix = getMatrix(shuffledArray, size);
 		setPosBox(boxNodes, matrix);
 		num = 0;
 		move.innerHTML = `0${num}`;
+		div ? div.remove() : null;
 	});
 
 	//Change position
@@ -57,31 +59,15 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 
 		const boxNum = +clickBox.dataset.id;
 		const boxPos = findPos(boxNum, matrix);
-		console.log(boxPos);
 		const blankPos = findPos(blankNum, matrix);
-		console.log(blankPos);
 		const valid = validForSwap(boxPos, blankPos);
 		let won = false;
 
 		if (valid) {
-			won = readyForSwap(boxPos, blankPos, matrix, size);
-			setPosBox(boxNodes, matrix);
-			console.log(1);
 			num++;
 			move.innerHTML = num <= 9 ? `0${num}` : `${num}`;
-		}
-
-		if (won) {
-			let wrapper = document.querySelector('.wrapper');
-			divCont.classList.add('won');
-			let moves = document.getElementById('moves').innerHTML;
-			let time = document.getElementById('time').innerHTML;
-			let div = blockDiv.getElem('div', 'win');
-			div.innerHTML = `Hooray! You solved the puzzle in ${time} and ${moves} moves!`;
-			wrapper.append(div);
-			setTimeout(() => {
-				div.remove();
-			}, 5000);
+			won = readyForSwap(boxPos, blankPos, matrix, size, boxNodes);
+			setPosBox(boxNodes, matrix);
 		}
 	};
 }

@@ -46,6 +46,10 @@ export default function timer(div, won) {
 			}
 			if (clickButton.innerText === 'Stop') stopTimer();
 		}
+		if (e.target.closest('.save')) {
+			clearInterval(timer.id);
+		}
+
 		if (e.target.closest('.box') !== e.target.closest('.box .blank')) {
 			let checkWon = document.querySelector('.win');
 			if (checkWon) {

@@ -2,6 +2,8 @@ import './assets/styles/sass/style.scss';
 import CreateElem from './assets/js/CreateElem';
 import createFrame from './assets/js/createFrame';
 import timer from './assets/js/timer';
+import getResult from './assets/js/getResult';
+import getSave from './assets/js/getSave';
 
 let blockDiv = new CreateElem('div');
 let blockButton = new CreateElem('button');
@@ -30,7 +32,7 @@ wrapper.append(divCont);
 wrapper.append(frameDiv);
 
 //Create buttons
-const buttonsText = ['Shuffle and start', 'Stop', 'Sound', 'Save', 'Results'];
+const buttonsText = ['Shuffle and start', 'Stop', 'Sound', 'Results', 'Save', 'Load'];
 const buttons = [];
 for (let i = 0; i < buttonsText.length; i++) {
 	let button = blockButton.getElem('button', 'button', buttonsText[i]);
@@ -39,9 +41,11 @@ for (let i = 0; i < buttonsText.length; i++) {
 }
 buttons[0].setAttribute('id', `shuffle`);
 buttons[2].setAttribute('id', `sound`);
+buttons[4].classList.add('save');
 
 const audio = new Audio('click.ogg');
 
+//Implement soundOn/off
 buttons[2].addEventListener('click', () => {
 	buttons[2].classList.toggle('sound-off');
 	if (buttons[2].classList.contains('sound-off')) {
@@ -52,6 +56,21 @@ buttons[2].addEventListener('click', () => {
 	}
 });
 
+//Implement button Result
+div.addEventListener('click', (e) => {
+	let result = e.target.closest('.result');
+	result ? result.remove() : false;
+});
+
+buttons[3].addEventListener('click', function () {
+	getResult();
+});
+
+//Implement button Save
+buttons[4].addEventListener('click', function () {
+	getSave();
+});
+
 //Create start frame 4x4
 createFrame(blockDiv, divCont);
 
@@ -60,12 +79,17 @@ timer(wrapper);
 
 //Create frame sizes
 const frameSizesText = ['3x3', '4x4', '5x5', '6x6', '7x7', '8x8'];
+let prevButtonFrame = null;
 for (let i = 0; i < frameSizesText.length; i++) {
 	let frame = blockButton.getElem('button', 'button', frameSizesText[i]);
 	frame.classList.add('frame__button');
+	//frame.disabled = i === 1 ? true : false;
 	frame.setAttribute('data-id', `${(i + 3) ** 2}`);
 	frameDiv.append(frame);
-	frame.addEventListener('click', () => {
+	frame.addEventListener('click', function () {
+
+		const div = document.querySelector('.win');
+		div ? div.remove() : null;
 		let size = +frame.dataset.id;
 		divCont.innerHTML = '';
 		createFrame(blockDiv, divCont, size);
@@ -76,6 +100,11 @@ for (let i = 0; i < frameSizesText.length; i++) {
 			onSound();
 		}
 		divCont.classList.remove('won');
+		if (prevButtonFrame) {
+			prevButtonFrame.disabled = false;
+		}
+		prevButtonFrame = this;
+		this.disabled = true;
 	});
 }
 
@@ -106,3 +135,9 @@ function onSound() {
 }
 
 onSound();
+
+// window.onload = function () {
+// 	const content = document.querySelector('.content');
+// 	const frame = document.querySelector('.frame');
+// 	content.outerHTML = localStorage.getItem('save', localStorage.save);
+// }

@@ -115,6 +115,10 @@ module.exports = {
 				test: /\.(inl.svg)$/,
 				type: 'asset/source',
 			},
+			{
+				test: /\.(mp3|ogg)$/,
+				type: 'asset',
+			},
 		],
 	},
 };
