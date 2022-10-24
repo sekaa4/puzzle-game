@@ -1,5 +1,7 @@
 export default function timer(div, won) {
 	const time = document.getElementById('time');
+	const divCont = document.querySelector('.content');
+
 	let milisec = 0;
 	let timer;
 
@@ -44,6 +46,13 @@ export default function timer(div, won) {
 				time.innerHTML = '00:00';
 			}
 			if (clickButton.innerText === 'Stop') stopTimer();
+			if (clickButton.innerText === 'Save') continueTimer();
+			if (clickButton.innerText === 'Load Save') {
+				let saveTime = time.innerHTML;
+				let arr = saveTime.split(':');
+				milisec = arr[0] * 60000 + arr[1] * 1000;
+				divCont.classList.contains('won') ? stopTimer() : continueTimer();
+			};
 		}
 		if (e.target.closest('.save')) {
 			clearInterval(timer);

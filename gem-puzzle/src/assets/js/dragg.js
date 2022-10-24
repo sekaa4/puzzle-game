@@ -50,7 +50,6 @@ export default function dragg(matrix, size, boxNodes, num) {
 			} else {
 				blank.style.opacity = 0;
 			}
-			console.log('end drag');
 		}
 
 		event.target.style.backgroundColor = '';

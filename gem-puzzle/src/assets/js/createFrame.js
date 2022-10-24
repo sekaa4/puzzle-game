@@ -5,8 +5,9 @@ import { findPos } from './changePos';
 import { validForSwap } from './changePos';
 import { readyForSwap } from './changePos';
 import dragg from './dragg';
+import getSave from './getSave';
 
-export default function createFrame(blockDiv, divCont, size = 16) {
+export default function createFrame(blockDiv, divCont, size = 16, matrix) {
 	//Create Boxes in content
 	let num = 0;
 	let move = document.getElementById('moves');
@@ -34,10 +35,15 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 
 	//Position
 	let boxNodes = Array.from(document.querySelectorAll('.box'));
-	let matrix = getMatrix(boxNodes.map(el => +el.dataset.id), size);
-	const shuffledArray = shuffleArray(matrix.flat(), size);
-	matrix = getMatrix(shuffledArray, size);
-	setPosBox(boxNodes, matrix);
+	if (matrix) {
+		setPosBox(boxNodes, matrix);
+	} else {
+		matrix = getMatrix(boxNodes.map(el => +el.dataset.id), size);
+		const shuffledArray = shuffleArray(matrix.flat(), size);
+		matrix = getMatrix(shuffledArray, size);
+		setPosBox(boxNodes, matrix);
+	}
+
 
 	//Shuffle
 	document.getElementById('shuffle').addEventListener('click', () => {
@@ -77,4 +83,10 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 
 	//Create dragg
 	dragg(matrix, size, boxNodes, num);
+
+	//Implement button Save
+	document.querySelector('.save').addEventListener('click', save);
+	function save() {
+		getSave(matrix, size);
+	}
 }

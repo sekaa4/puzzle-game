@@ -3,8 +3,7 @@ import CreateElem from './assets/js/CreateElem';
 import createFrame from './assets/js/createFrame';
 import timer from './assets/js/timer';
 import getResult from './assets/js/getResult';
-import getSave from './assets/js/getSave';
-//import dragg from './assets/js/dragg';
+import getLoad from './assets/js/getLoad';
 
 let blockDiv = new CreateElem('div');
 let blockButton = new CreateElem('button');
@@ -33,7 +32,7 @@ wrapper.append(divCont);
 wrapper.append(frameDiv);
 
 //Create buttons
-const buttonsText = ['Shuffle and start', 'Stop', 'Sound', 'Results', 'Save', 'Load'];
+const buttonsText = ['Shuffle and start', 'Stop', 'Sound', 'Results', 'Save', 'Load Save'];
 const buttons = [];
 for (let i = 0; i < buttonsText.length; i++) {
 	let button = blockButton.getElem('button', 'button', buttonsText[i]);
@@ -43,6 +42,7 @@ for (let i = 0; i < buttonsText.length; i++) {
 buttons[0].setAttribute('id', `shuffle`);
 buttons[2].setAttribute('id', `sound`);
 buttons[4].classList.add('save');
+buttons[5].classList.add('load');
 
 const audio = new Audio('click.ogg');
 
@@ -67,11 +67,6 @@ buttons[3].addEventListener('click', function () {
 	getResult();
 });
 
-//Implement button Save
-buttons[4].addEventListener('click', function () {
-	getSave();
-});
-
 //Create start frame 4x4
 createFrame(blockDiv, divCont);
 
@@ -84,7 +79,6 @@ let prevButtonFrame = null;
 for (let i = 0; i < frameSizesText.length; i++) {
 	let frame = blockButton.getElem('button', 'button', frameSizesText[i]);
 	frame.classList.add('frame__button');
-	//frame.disabled = i === 1 ? true : false;
 	frame.setAttribute('data-id', `${(i + 3) ** 2}`);
 	frameDiv.append(frame);
 	frame.addEventListener('click', function () {
@@ -136,8 +130,8 @@ function onSound() {
 
 onSound();
 
-// window.onload = function () {
-// 	const content = document.querySelector('.content');
-// 	const frame = document.querySelector('.frame');
-// 	content.outerHTML = localStorage.getItem('save', localStorage.save);
-// }
+//Implement button Load Save
+document.querySelector('.load').addEventListener('click', load);
+function load() {
+	getLoad(blockDiv, divCont);
+}

@@ -35,7 +35,7 @@ export function readyForSwap(pos1, pos2, matrix, size) {
 		let div = blockDiv.getElem('div', 'win');
 		div.innerHTML = `Hooray! You solved the puzzle in ${time} and ${moves} moves!`;
 		wrapper.append(div);
-		setTimeout(saveLocalStorage, 800, size);
+		setTimeout(saveLocalStorage, 600, size);
 	}
 }
 

@@ -2,6 +2,7 @@ import CreateElem from "./CreateElem";
 
 export default function getResult() {
 	let getPage = document.querySelector('.result');
+	let count = 0;
 	getPage ? getPage.remove() : false;
 
 	let wrapper = document.querySelector('.wrapper');
@@ -27,7 +28,13 @@ export default function getResult() {
 	});
 
 	for (let i = 0; i < arrKeys.length; i++) {
+		if (count >= 10) {
+			break;
+		}
 		let key = arrKeys[i];
+		if (key === 'saveGameToLocalStorage' || !key) {
+			continue;
+		}
 		let obj = JSON.parse(localStorage[key]);
 		let divPage = blockDiv.getElem('div', 'result__page');
 
@@ -44,6 +51,7 @@ export default function getResult() {
 
 		divPage.append(divStr, divStr2, divStr3, divStr4, divStr5);
 		div.append(divPage);
+		count++;
 	}
 
 	wrapper.append(div);

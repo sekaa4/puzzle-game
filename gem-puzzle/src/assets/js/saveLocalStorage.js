@@ -1,3 +1,4 @@
+let inx = 1;
 export default function saveLocalStorage(size) {
 	let moves = document.getElementById('moves').innerHTML;
 	let time = document.getElementById('time').innerHTML;
@@ -27,7 +28,7 @@ export default function saveLocalStorage(size) {
 }
 
 function checkResult(moves, size) {
-	let result = false;
+	let result = true;
 	let checkSize = false;
 	if (!moves) {
 		return;
@@ -40,6 +41,7 @@ function checkResult(moves, size) {
 
 	for (let i = 0; i < arrKeys.length; i++) {
 		let key = arrKeys[i];
+
 		let oldValue = JSON.parse(localStorage[key]);
 		checkSize = size === oldValue.size;
 		if (moves <= oldValue.move && size === oldValue.size) {
@@ -55,16 +57,16 @@ function checkResult(moves, size) {
 	return checkSize ? result : true;
 }
 
-let inx = 1;
 function user() {
-	let user = prompt('Write your name to save your result in top-10 table', 'user');
+	let user = prompt('Write your name to save your result in top-10 table', `user${inx}`);
+	inx++;
 	user = user.trim();
 	if (!user) {
-		user = `user${inx}`;
 		inx++;
+		user = `user${inx}`;
 	} else if (user === 'user') {
-		user = `user${inx}`;
 		inx++;
+		user = `user${inx}`;
 	}
 
 	return user;
