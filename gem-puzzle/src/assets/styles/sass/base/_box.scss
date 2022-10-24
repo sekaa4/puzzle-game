@@ -17,6 +17,7 @@
 }
 
 .blank {
-	display: none;
+	pointer-events: none;
+	background-color: rgba(0, 255, 0, 0.8);
 	opacity: 0;
 }

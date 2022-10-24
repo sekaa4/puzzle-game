@@ -4,6 +4,7 @@ import { shuffleArray } from './shuffleArray';
 import { findPos } from './changePos';
 import { validForSwap } from './changePos';
 import { readyForSwap } from './changePos';
+import dragg from './dragg';
 
 export default function createFrame(blockDiv, divCont, size = 16) {
 	//Create Boxes in content
@@ -27,6 +28,7 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 			elem.style.height = `${100 / Math.sqrt(size)}%`;
 			elem.style.fontSize = `${100 / size}rem`;
 			divCont.append(elem);
+			elem.setAttribute('draggable', 'true');
 		}
 	}
 
@@ -47,6 +49,7 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 		num = 0;
 		move.innerHTML = `0${num}`;
 		div ? div.remove() : null;
+		dragg(matrix, size, boxNodes, num);
 	});
 
 	//Change position
@@ -64,10 +67,14 @@ export default function createFrame(blockDiv, divCont, size = 16) {
 		let won = false;
 
 		if (valid) {
+			num = +move.innerHTML;
 			num++;
 			move.innerHTML = num <= 9 ? `0${num}` : `${num}`;
 			won = readyForSwap(boxPos, blankPos, matrix, size, boxNodes);
 			setPosBox(boxNodes, matrix);
 		}
 	};
+
+	//Create dragg
+	dragg(matrix, size, boxNodes, num);
 }

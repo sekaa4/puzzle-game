@@ -4,6 +4,7 @@ import createFrame from './assets/js/createFrame';
 import timer from './assets/js/timer';
 import getResult from './assets/js/getResult';
 import getSave from './assets/js/getSave';
+//import dragg from './assets/js/dragg';
 
 let blockDiv = new CreateElem('div');
 let blockButton = new CreateElem('button');
@@ -18,7 +19,7 @@ let mtDiv = blockDiv.getElem('div', 'move-time');
 let moveDiv = blockDiv.getElem('div', 'move', `<span class='text'>Moves:</span>
 <span id="moves" >00</span>`);
 let timeDiv = blockDiv.getElem('div', 'time', `<span class='text'>Time:</span>
-<span id="time" >00:00:00</span>`);
+<span id="time" >00:00</span>`);
 let frameDiv = blockDiv.getElem('div', 'frame', `<span class='frame__text'>Frame sizes:</span>`);
 
 document.body.append(div);
@@ -87,7 +88,6 @@ for (let i = 0; i < frameSizesText.length; i++) {
 	frame.setAttribute('data-id', `${(i + 3) ** 2}`);
 	frameDiv.append(frame);
 	frame.addEventListener('click', function () {
-
 		const div = document.querySelector('.win');
 		div ? div.remove() : null;
 		let size = +frame.dataset.id;

@@ -26,8 +26,6 @@ export function shuffleArray(arr, size) {
 				el > shuffle[i] ? sum++ : null;
 			}
 		}
-		console.log('elem:', el, sum);
 	});
-	console.log(sum, numString);
 	return ((numString + sum) % 2 === 0) ? shuffle : shuffleArray(shuffle, size);
 }

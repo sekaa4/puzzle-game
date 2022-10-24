@@ -1,7 +1,14 @@
 .button {
 	display: inline-block;
-	max-width: 30%;
+	min-width: 10%;
 	background-color: blueviolet;
+	border: none;
+	border-radius: 10px;
+	font-size: 1.5rem;
+	padding: 3px;
+	&:hover {
+		background: rgb(45, 180, 45);
+	}
 }
 
 .sound-off {
